@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Shared UI system (ported from /shared/ui.css) */
+  --bg: #080608;
+  --surface: #100d10;
+  --surface-variant: #18141a;
+  --surface-high: #221d24;
+  --outline: #3d3040;
+  --on-surface: #fff8f0;
+  --on-surface-variant: #a89ba8;
+  --coral: #ff4d6d;
+  --gold: #f0c060;
+  --mint: #00d4aa;
+
+  --background: var(--bg);
+  --foreground: var(--on-surface);
 }
 
 @theme inline {
@@ -12,15 +24,222 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.site-logo {
+  font-family: "Unbounded", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+}
+
+.site-chrome {
+  background: rgba(12, 10, 12, 0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--outline);
+}
+
+.btn-studio,
+.btn-gradient {
+  background: linear-gradient(135deg, var(--coral), var(--gold));
+  color: var(--bg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-studio:hover,
+.btn-gradient:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(255, 77, 109, 0.3);
+}
+
+/* Studio orbs */
+.orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.o {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+}
+
+.o1 {
+  width: 580px;
+  height: 580px;
+  background: var(--coral);
+  opacity: 0.13;
+  top: -160px;
+  right: -140px;
+  animation: fl 17s ease-in-out infinite alternate;
+}
+
+.o2 {
+  width: 420px;
+  height: 420px;
+  background: var(--gold);
+  opacity: 0.1;
+  bottom: -100px;
+  left: -80px;
+  animation: fl 13s ease-in-out infinite alternate-reverse;
+}
+
+.o3 {
+  width: 280px;
+  height: 280px;
+  background: var(--mint);
+  opacity: 0.07;
+  top: 50%;
+  left: 45%;
+  animation: fl 21s ease-in-out infinite alternate;
+}
+
+@keyframes fl {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(26px, 20px);
+  }
+}
+
+/* Studio panels */
+.panel {
+  background: #100d10;
+  border: 1px solid var(--outline);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.pglow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--coral),
+    var(--gold),
+    transparent
+  );
+  opacity: 0.4;
+  z-index: 10;
+}
+
+.zlabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.zlabel::before {
+  content: "";
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--coral);
+  display: inline-block;
+}
+
+.intro-card {
+  background: rgba(16, 13, 16, 0.6);
+  border: 1px solid rgba(61, 48, 64, 0.4);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.intro-card:hover {
+  border-color: rgba(255, 77, 109, 0.3);
+  background: rgba(24, 20, 26, 0.8);
+}
+
+/* Studio editor page blocks (ported from studio_edit/index.html) */
+.editor-panel {
+  background: #100d10;
+  border-radius: 24px;
+  border: 1px solid var(--outline);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.editor-card {
+  background: rgba(16, 13, 16, 0.85);
+  border-radius: 18px;
+  border: 1px solid rgba(61, 48, 64, 0.7);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.1s ease;
+}
+
+.editor-card:hover {
+  border-color: rgba(255, 77, 109, 0.6);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  transform: translateY(-1px);
+}
+
+.editor-textarea {
+  background: transparent;
+  border: none;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.editor-textarea:focus-visible {
+  outline: none;
+}
+
+.badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Sidebar drawer (studio) */
+#studio-sidebar {
+  transform: translateX(-100%);
+}
+
+@media (min-width: 1024px) {
+  #studio-sidebar {
+    transform: translateX(0);
+  }
+}
+
+body.sidebar-open #studio-sidebar {
+  transform: translateX(0);
+}
+
+#sidebar-backdrop {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+body.sidebar-open #sidebar-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 1023px) {
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1024px) {
+  #sidebar-backdrop {
+    display: none !important;
+  }
 }
